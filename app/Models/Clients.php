@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Clients extends Model
+{
+    protected $table = 'clients';
+    protected $primaryKey = 'client_id';
+    public $timestamps = false;
+
+    protected $fillable = [
+        'client_name',
+        'client_comp_name',
+        'email',
+        'mob',
+        'dob',
+        'address',
+        'register_by',
+        'updated_date',
+        'updated_by',
+        'is_active',
+        'is_delete',
+    ];
+}

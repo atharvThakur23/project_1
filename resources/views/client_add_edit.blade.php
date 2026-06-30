@@ -1,0 +1,173 @@
+@extends('layouts.home')
+@section('title')
+  Client Add/Edit
+@endsection
+@section('content')
+
+<div class="container-fluid px-3 px-lg-4 py-4">
+    <div class="page-heading">
+      <div class="page-heading-copy">
+        <span class="page-icon"><i class="bi bi-person-plus" aria-hidden="true"></i></span>
+        <div>
+          <p class="eyebrow mb-1">Management</p>
+          <h1 class="h3 mb-1">Add Client</h1>
+          {{-- <p class="text-muted mb-0">Create a new client account with role and team assignments.</p> --}}
+        </div>
+      </div>
+      <div class="heading-actions"><a class="btn btn-outline-secondary btn-sm" href="users.html"><i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Users</a></div>
+    </div>
+
+    <section class="row g-3">
+      <div class="col-12 col-xl-12">
+        <form class="panel needs-validation" novalidate method="POST" id="clientForm">
+            @csrf
+          <div class="panel-header"><div><h2 class="h5 mb-1 section-title"><i class="bi bi-person-plus" aria-hidden="true"></i><span>Client Information</span></h2><p class="text-muted mb-0">Create a client account with validated fields.</p></div></div>
+          <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label" for="client_name">Client name</label>
+                <input class="form-control" id="client_name" name="client_name" type="text" required>
+                <div class="invalid-feedback">Please enter a valid client name.</div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="email">Email</label>
+                <input class="form-control" id="email" name="email" type="email" required>
+                <div class="invalid-feedback">Please enter email address.</div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="phone">Phone</label>
+                <input class="form-control" id="phone" name="phone" type="tel" required>
+                <div class="invalid-feedback">Please enter phone number.</div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="company">Company</label>
+                <select class="form-select" id="company" name="company" required>
+                    <option value="">Choose company</option>
+                    
+                </select>
+                <div class="invalid-feedback">Please select a company.</div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="revenue_expected">Revenue Expected</label>
+                <input class="form-control" id="revenue_expected" name="revenue_expected" type="number" required>
+                <div class="invalid-feedback">Please enter expected revenue.</div>
+            </div>
+            <div class="col-12">
+                <label class="form-label" for="notes">Notes</label>
+                <textarea class="form-control" id="notes" name="notes" rows="4" placeholder="Optional onboarding notes">
+                </textarea>
+            </div>
+          </div>
+          <div class="d-flex flex-wrap justify-content-end gap-2 mt-4">
+            <a class="btn btn-outline-secondary" href="users.html">Cancel</a>
+            <button class="btn btn-primary" type="submit">
+                <i class="bi bi-person-check" aria-hidden="true"></i> Create Client
+            </button>
+        </div>
+        </form>
+      </div>
+    </section>
+  </div>
+
+@endsection
+
+<script src="https://code.jquery.com/jquery-4.0.0.slim.min.js" integrity="sha256-8DGpv13HIm+5iDNWw1XqxgFB4mj+yOKFNb+tHBZOowc="crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+@section('scripts')
+
+<script>
+
+    $("#clientForm").validate({
+        rules: {
+            client_name: {
+                required: true,
+                minlength: 3
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            phone: {
+                required: true,
+                digits: true,
+                minlength: 10,
+                maxlength: 10
+            },
+            revenue_expected: {
+                required: true,
+                number: true
+            },
+            company: {
+                required: true
+            }
+        },
+        messages: {
+            client_name: {
+                required: "Please enter client name",
+                minlength: "Client name must be at least 3 characters"
+            },
+            email: {
+                required: "Please enter your email",
+                email: "Please enter a valid email"
+            },
+            phone: {
+                required: "Please enter your phone number",
+                digits: "Only digits are allowed",
+                minlength: "Phone number must be 10 digits",
+                maxlength: "Phone number must be 10 digits"
+            },
+            revenue_expected: {
+                required: "Please enter expected revenue",
+                number: "Please enter a valid number"
+            },
+            company: {
+                required: "Please select a company"
+            }
+        },
+        submitHandler: function(form) {
+            $.ajax({
+                url: "{{ route('clients-add') }}",
+                type: "POST",
+                data: $(form).serialize(),
+                dataType: "json",
+                success: function(response) {
+                    if (response.status) {
+                        alert("Saved successfully!");
+                        form.reset();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function() {
+                    alert("Something went wrong.");
+                }
+            });
+
+            return false; // Prevent normal form submission
+        }
+    });
+
+    function save_client(){
+
+        $.ajax({
+            url: "{{ route('clients-add') }}",
+            type: "POST",
+            data: $("#clientForm").serialize(),
+            success: function(response) {
+                // Handle success response
+                console.log(response);
+                alert("Client saved successfully!");
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                // console.error(xhr.responseJSON.message);
+                alert(xhr.responseJSON.message);
+            }
+        });
+
+    }
+
+
+</script>
+
+
+@endsection
