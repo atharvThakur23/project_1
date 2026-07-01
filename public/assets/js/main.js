@@ -238,3 +238,22 @@
     }
   });
 })();
+document.querySelectorAll(".cu-menu-toggle").forEach(toggle => {
+
+    toggle.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        const parent = this.parentElement;
+
+        // Close other open menus
+        document.querySelectorAll(".cu-menu-item.cu-open").forEach(item => {
+            if (item !== parent) {
+                item.classList.remove("cu-open");
+            }
+        });
+
+        // Toggle current menu
+        parent.classList.toggle("cu-open");
+    });
+
+});

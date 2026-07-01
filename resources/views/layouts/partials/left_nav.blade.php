@@ -1,3 +1,4 @@
+
 <aside class="admin-sidebar" id="adminSidebar" aria-label="Main navigation">
     <div class="sidebar-header">
       <a class="brand-mark" href="index.html" aria-label="adminHMD dashboard">
@@ -18,35 +19,19 @@
         <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
         <span class="nav-text">Clients</span>
       </a>
-      <a class="nav-link d-flex justify-content-between align-items-center w-100 border-0 bg-transparent"
-       data-bs-toggle="collapse"
-       href="#userMenu"
-       role="button"
-       aria-expanded="false"  aria-controls="userMenu">
+      <li class="cu-menu-item">
+            <a href="#" class="cu-menu-toggle">
+                <span class="nav-icon"><i class="bi bi-box2-fill" aria-hidden="true"></i></span>
+                <span class="nav-text">Master</span>
 
-        <span>
-            <span class="nav-icon">
-                <i class="bi bi-person-plus"></i>
-            </span>
-            <span class="nav-text">Add User</span>
-        </span>
+                <i class="bi bi-chevron-down cu-arrow"></i>
+            </a>
 
-        <i class="bi bi-chevron-down"></i>
-    </a>
+            <ul class="cu-submenu">
+                <li><a href="#">Add Company</a></li>
+            </ul>
+        </li>
 
-    <div class="collapse" id="userMenu">
-      <a class="nav-link ps-5" href="#">
-          Create User
-      </a>
-
-      <a class="nav-link ps-5" href="#">
-          User List
-      </a>
-
-      <a class="nav-link ps-5" href="#">
-          Roles
-      </a>
-  </div>
 
       <a class="nav-link" href="profile.html">
         <span class="nav-icon"><i class="bi bi-person-badge" aria-hidden="true"></i></span>
