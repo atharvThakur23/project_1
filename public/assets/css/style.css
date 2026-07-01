@@ -40,6 +40,10 @@ a {
   text-decoration: none;
 }
 
+.error{
+  color: red;
+}
+
 .admin-shell {
   min-height: 100vh;
 }
@@ -1755,4 +1759,86 @@ html[data-theme="dark"] {
 
 .cu-sidebar::-webkit-scrollbar-track{
     background:transparent;
+}
+
+.pm-modal-dialog{
+  max-width:500px;
+}
+
+.pm-modal-content{
+  border:none;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
+}
+
+.pm-modal-header{
+  background:#0d6efd;
+  color:#fff;
+  padding:18px 22px;
+}
+
+.pm-modal-header .btn-close{
+  filter:invert(1);
+}
+
+.pm-modal-body{
+  padding:25px;
+}
+
+.pm-form-group{
+  margin-bottom:18px;
+}
+
+.pm-label{
+  font-weight:600;
+  margin-bottom:6px;
+  display:block;
+  color:#444;
+}
+
+.pm-input{
+  height:46px;
+  border-radius:8px;
+  border:1px solid #ced4da;
+  transition:.3s;
+}
+
+.pm-input:focus{
+  border-color:#0d6efd;
+  box-shadow:0 0 0 .15rem rgba(13,110,253,.2);
+}
+
+.pm-modal-footer{
+  padding:18px 22px;
+}
+
+.pm-save-btn{
+  min-width:120px;
+}
+
+/* Mobile */
+@media(max-width:576px){
+
+  .pm-modal-dialog{
+      margin:15px;
+  }
+
+  .pm-modal-body{
+      padding:18px;
+  }
+
+  .pm-modal-header{
+      padding:15px;
+  }
+
+  .pm-modal-footer{
+      padding:15px;
+  }
+
+  .pm-input{
+      height:44px;
+      font-size:14px;
+  }
+
 }

@@ -28,7 +28,7 @@
             </a>
 
             <ul class="cu-submenu">
-                <li><a href="#">Add Company</a></li>
+                <li><a href="{{ route('company-master') }}">Add Company</a></li>
             </ul>
         </li>
 
