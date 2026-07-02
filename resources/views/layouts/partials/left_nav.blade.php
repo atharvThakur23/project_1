@@ -72,13 +72,13 @@
     </nav>
 
     <div class="sidebar-user">
-      <img class="avatar-img avatar-md sidebar-user-avatar" src="../assets/images/avatar/avatar.jpg" alt="Admin Hasan">
-      <strong>Admin Hasan</strong>
+      <img class="avatar-img avatar-md sidebar-user-avatar" src="{{ asset('assets/images/avatar/profile.png') }}" alt="Admin">
+      <strong>Admin11 Hasan</strong>
       <small>Active Workspace</small>
     </div>
 
     <div class="sidebar-footer">
       <span class="status-dot"></span>
-      <span class="sidebar-footer-text">System running smoothly</span>
+      <span class="sidebar-footer-text">System running smoothly1</span>
     </div>
   </aside>

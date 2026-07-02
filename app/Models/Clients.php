@@ -22,5 +22,7 @@ class Clients extends Model
         'updated_by',
         'is_active',
         'is_delete',
+        'company_id',
+        'expected_revenue',
     ];
 }

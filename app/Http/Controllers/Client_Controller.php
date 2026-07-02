@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Clients;
+use App\Models\{Clients,Companies};
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +16,8 @@ class Client_Controller extends Controller
 
     public function addedit()
     {
-        return view('client_add_edit');
+        $companies = Companies::where('is_delete', 0)->where('status', 1)->get();
+        return view('client_add_edit', compact('companies'));
     }
 
     public function add(Request $request)
@@ -24,20 +25,27 @@ class Client_Controller extends Controller
         // Validate the request data
         $validatedData = $request->validate([
             'client_name' => 'required|string|max:255',
-            'client_comp_name' => 'required|string|max:255',
+            'company' => 'required|exists:companies,company_id',
             'email' => 'required|email|unique:clients,email',
-            'mob' => 'required|string|max:15',
+            'phone' => 'required|string|max:15',
             'dob' => 'nullable|date',
-            'address' => 'nullable|string|max:500',
-            'register_by' => 'nullable|string|max:255',
-            'updated_date' => 'nullable|date',
-            'updated_by' => 'nullable|string|max:255',
-            'is_active' => 'boolean',
-            'is_delete' => 'boolean',
+            'address' => 'nullable|string|max:500'
         ]);
 
-        echo "<pre>";print_r($validatedData);exit;
-        // Redirect to the clients list with a success message
-        return redirect()->route('clients-list')->with('success', 'Client added successfully.');
+        $is_saved = Clients::create([
+            'client_name' => $validatedData['client_name'],
+            'company_id' => $validatedData['company'],
+            'email' => $validatedData['email'],
+            'mob' => $validatedData['phone'],
+            'dob' => $validatedData['dob'] ?? null,
+            'expected_revenue' => $validatedData['expected_revenue'] ?? null,
+            'address' => $validatedData['address'] ?? null,
+            'register_by' => session('user_id'), 
+        ]);
+        if (!$is_saved) {
+            return json_encode(['status' => 'false', 'message' => 'Failed to add client. Please try again.']);
+        }
+
+        return json_encode(['status' => 'true', 'message' => 'Client added successfully.']);
     }
 }

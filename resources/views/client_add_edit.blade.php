@@ -14,7 +14,12 @@
           {{-- <p class="text-muted mb-0">Create a new client account with role and team assignments.</p> --}}
         </div>
       </div>
-      <div class="heading-actions"><a class="btn btn-outline-secondary btn-sm" href="users.html"><i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Users</a></div>
+      <div class="heading-actions">
+        <a class="btn btn-outline-secondary btn-sm" href="{{ route('clients-list') }}">
+            <i class="bi bi-arrow-left" aria-hidden="true"></i> 
+            Back to Users
+        </a>
+    </div>
     </div>
 
     <section class="row g-3">
@@ -42,23 +47,32 @@
                 <label class="form-label" for="company">Company</label>
                 <select class="form-select" id="company" name="company" required>
                     <option value="">Choose company</option>
-                    
+                    @if(!empty($companies))
+                        @foreach($companies as $company)
+                            <option value="{{ $company->company_id }}">{{ $company->company_name }}</option>
+                        @endforeach
+                    @endif                    
                 </select>
-                <div class="invalid-feedback">Please select a company.</div>
+                {{-- <div class="invalid-feedback">Please select a company.</div> --}}
             </div>
             <div class="col-md-6">
                 <label class="form-label" for="revenue_expected">Revenue Expected</label>
                 <input class="form-control" id="revenue_expected" name="revenue_expected" type="number" required>
                 <div class="invalid-feedback">Please enter expected revenue.</div>
             </div>
+            <div class="col-md-6">
+                <label class="form-label" for="dob">Date of Birth</label>
+                <input class="form-control" id="dob" name="dob" type="date" required>
+                <div class="invalid-feedback">Please enter date of birth.</div>
+            </div>
             <div class="col-12">
-                <label class="form-label" for="notes">Notes</label>
-                <textarea class="form-control" id="notes" name="notes" rows="4" placeholder="Optional onboarding notes">
+                <label class="form-label" for="address">Address</label>
+                <textarea class="form-control" id="address" name="address" rows="4" placeholder="Enter client address">
                 </textarea>
             </div>
           </div>
           <div class="d-flex flex-wrap justify-content-end gap-2 mt-4">
-            <a class="btn btn-outline-secondary" href="users.html">Cancel</a>
+            <a class="btn btn-outline-secondary" href="{{ route('clients-list') }}">Cancel</a>
             <button class="btn btn-primary" type="submit">
                 <i class="bi bi-person-check" aria-hidden="true"></i> Create Client
             </button>
@@ -70,8 +84,6 @@
 
 @endsection
 
-<script src="https://code.jquery.com/jquery-4.0.0.slim.min.js" integrity="sha256-8DGpv13HIm+5iDNWw1XqxgFB4mj+yOKFNb+tHBZOowc="crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 @section('scripts')
 
 <script>
@@ -98,7 +110,11 @@
             },
             company: {
                 required: true
-            }
+            },
+            dob: {
+                required: true,
+                date: true
+            }   
         },
         messages: {
             client_name: {
@@ -121,6 +137,10 @@
             },
             company: {
                 required: "Please select a company"
+            },
+            dob: {
+                required: "Please enter date of birth",
+                date: "Please enter a valid date"
             }
         },
         submitHandler: function(form) {
@@ -141,7 +161,6 @@
                     alert("Something went wrong.");
                 }
             });
-
             return false; // Prevent normal form submission
         }
     });
@@ -163,7 +182,6 @@
                 alert(xhr.responseJSON.message);
             }
         });
-
     }
 
 

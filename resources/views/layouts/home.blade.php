@@ -37,18 +37,28 @@
       @include('layouts.partials.footer')
     </div>
   </div>
+ <!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
- <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
- <script src="{{ asset('assets/js/main.js') }}"></script>
- <script src="https://code.jquery.com/jquery-4.0.0.slim.min.js" integrity="sha256-8DGpv13HIm+5iDNWw1XqxgFB4mj+yOKFNb+tHBZOowc="crossorigin="anonymous"></script>
- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
- <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+<!-- Bootstrap -->
+<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+<!-- jQuery Validation -->
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+
+<!-- DataTables -->
+<script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+
+<!-- Notyf -->
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
+<!-- iziToast -->
+<script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
+
+<!-- Your custom JS -->
+<script src="{{ asset('assets/js/main.js') }}"></script>
 
 @yield('scripts')
+
 </body>
 </html>
