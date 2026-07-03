@@ -26,26 +26,35 @@ class Client_Controller extends Controller
         $validatedData = $request->validate([
             'client_name' => 'required|string|max:255',
             'company' => 'required|exists:companies,company_id',
-            'email' => 'required|email|unique:clients,email',
+            'email' => 'required|email|',//unique:clients,email',
             'phone' => 'required|string|max:15',
             'dob' => 'nullable|date',
             'address' => 'nullable|string|max:500'
         ]);
 
+        $post = $request->all();
+        // echo "<pre>"; print_r($post); die;
         $is_saved = Clients::create([
-            'client_name' => $validatedData['client_name'],
-            'company_id' => $validatedData['company'],
-            'email' => $validatedData['email'],
-            'mob' => $validatedData['phone'],
-            'dob' => $validatedData['dob'] ?? null,
-            'expected_revenue' => $validatedData['expected_revenue'] ?? null,
-            'address' => $validatedData['address'] ?? null,
+            'client_name' => trim($post['client_name']),
+            'company_id' => trim($post['company']),
+            'email' => trim($post['email']),
+            'mob' => trim($post['phone']),
+            'dob' => $post['dob'] ?? null,
+            'expected_revenue' => $post['revenue_expected'] ?? null,
+            'address' => $post['address'] ?? null,
             'register_by' => session('user_id'), 
         ]);
         if (!$is_saved) {
-            return json_encode(['status' => 'false', 'message' => 'Failed to add client. Please try again.']);
+            return json_encode(['status' => false, 'message' => 'Failed to add client. Please try again.']);
         }
 
-        return json_encode(['status' => 'true', 'message' => 'Client added successfully.']);
+        return json_encode(['status' => true, 'message' => 'Client added successfully.']);
+    }
+
+    public function clients_list(Request $request){
+
+        $clients = Clients::with('company')->where('is_delete', 0)->get();
+        $data = [];
+        echo "<pre>"; print_r($clients); die;
     }
 }

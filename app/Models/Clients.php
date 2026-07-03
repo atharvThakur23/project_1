@@ -25,4 +25,9 @@ class Clients extends Model
         'company_id',
         'expected_revenue',
     ];
+
+    public function company()
+    {
+        return $this->belongsTo(Companies::class, 'company_id', 'company_id');
+    }
 }

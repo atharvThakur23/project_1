@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="heading-actions">
-        <a class="btn btn-outline-secondary btn-sm" href="{{ route('clients-list') }}">
+        <a class="btn btn-outline-secondary btn-sm" href="{{ route('clients') }}">
             <i class="bi bi-arrow-left" aria-hidden="true"></i> 
             Back to Users
         </a>
@@ -72,7 +72,7 @@
             </div>
           </div>
           <div class="d-flex flex-wrap justify-content-end gap-2 mt-4">
-            <a class="btn btn-outline-secondary" href="{{ route('clients-list') }}">Cancel</a>
+            <a class="btn btn-outline-secondary" href="{{ route('clients') }}">Cancel</a>
             <button class="btn btn-primary" type="submit">
                 <i class="bi bi-person-check" aria-hidden="true"></i> Create Client
             </button>
@@ -151,10 +151,23 @@
                 dataType: "json",
                 success: function(response) {
                     if (response.status) {
-                        alert("Saved successfully!");
-                        form.reset();
+                        
+                        iziToast.success({
+                            title: 'Success',
+                            message: response.message,
+                            position: 'topRight',
+                            timeout: 3000
+                        });
+                        setTimeout(function() {
+                            window.location.href = "{{ route('clients') }}";
+                        }, 2000);
                     } else {
-                        alert(response.message);
+                        iziToast.error({
+                            title: 'Error',
+                            message: response.message,
+                            position: 'topRight',
+                            timeout: 3000
+                        });
                     }
                 },
                 error: function() {

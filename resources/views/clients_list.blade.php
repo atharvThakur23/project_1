@@ -90,102 +90,70 @@
           <p class="text-muted mb-0">Search, review, and manage team member accounts.</p>
         </div>
         <div class="d-flex flex-wrap gap-2">
-          <input class="form-control form-control-sm table-search" type="search" placeholder="Search users" data-table-search="usersTable" aria-label="Search users">
+          {{-- <input class="form-control form-control-sm table-search" type="search" placeholder="Search users" data-table-search="usersTable" aria-label="Search users"> --}}
           <a class="btn btn-primary btn-sm" href="{{ route('clients-add-edit') }}">
             <i class="bi bi-person-plus" aria-hidden="true"></i> Add Client</a>
         </div>
       </div>
       <div class="table-responsive">
-        <table class="table align-middle mb-0" id="usersTable" data-searchable-table>
-          <thead><tr><th scope="col">User</th><th scope="col">Role</th><th scope="col">Team</th><th scope="col">Status</th><th scope="col">Joined</th><th scope="col" class="text-end">Action</th></tr></thead>
-          <tbody>
+        <table class="table align-middle mb-0" id="clientTable" data-searchable-table>
+          <thead>
             <tr>
-              <td>
-                <div class="d-flex align-items-center gap-2">
-                  <img class="avatar-img avatar-sm" src="../assets/images/avatar/avatar-1.jpg" alt="Sarah Ahmed">
-                  <div>
-                    <p class="fw-semibold mb-0">Sarah Ahmed</p>
-                    <p class="text-muted small mb-0">sarah@example.com</p>
-                  </div>
-                </div>
-              </td>
-              <td>Admin</td>
-              <td>Operations</td>
-              <td><span class="badge text-bg-success">Active</span></td>
-              <td>Jan 12, 2026</td>
-              <td class="text-end"><a class="btn btn-light btn-sm" href="user-details.html">View</a></td>
+              <th scope="col">Client Name</th>
+              <th scope="col">Company</th>
+              <th scope="col">Email</th>
+              <th scope="col">Mobile</th>
+              <th scope="col">Action</th>
             </tr>
-            <tr>
-              <td>
-                <div class="d-flex align-items-center gap-2">
-                  <img class="avatar-img avatar-sm" src="../assets/images/avatar/avatar-2.jpg" alt="Rafi Khan">
-                  <div>
-                    <p class="fw-semibold mb-0">Rafi Khan</p>
-                    <p class="text-muted small mb-0">rafi@example.com</p>
-                  </div>
-                </div>
-              </td>
-              <td>Manager</td>
-              <td>Sales</td>
-              <td><span class="badge text-bg-success">Active</span></td>
-              <td>Feb 03, 2026</td>
-              <td class="text-end"><a class="btn btn-light btn-sm" href="user-details.html">View</a></td>
-            </tr>
-            <tr>
-              <td>
-                <div class="d-flex align-items-center gap-2">
-                  <img class="avatar-img avatar-sm" src="../assets/images/avatar/avatar-3.jpg" alt="Nadia Islam">
-                  <div>
-                    <p class="fw-semibold mb-0">Nadia Islam</p>
-                    <p class="text-muted small mb-0">nadia@example.com</p>
-                  </div>
-                </div>
-              </td>
-              <td>Editor</td>
-              <td>Content</td>
-              <td><span class="badge text-bg-warning">Pending</span></td>
-              <td>Mar 18, 2026</td>
-              <td class="text-end"><a class="btn btn-light btn-sm" href="user-details.html">View</a></td>
-            </tr>
-            <tr>
-              <td>
-                <div class="d-flex align-items-center gap-2">
-                  <img class="avatar-img avatar-sm" src="../assets/images/avatar/avatar-4.jpg" alt="Mina Torres">
-                  <div>
-                    <p class="fw-semibold mb-0">Mina Torres</p>
-                    <p class="text-muted small mb-0">mina@example.com</p>
-                  </div>
-                </div>
-              </td>
-              <td>Viewer</td>
-              <td>Finance</td>
-              <td><span class="badge text-bg-secondary">Suspended</span></td>
-              <td>Apr 07, 2026</td>
-              <td class="text-end"><a class="btn btn-light btn-sm" href="user-details.html">View</a></td>
-            </tr>
-            <tr>
-              <td>
-                <div class="d-flex align-items-center gap-2">
-                  <img class="avatar-img avatar-sm" src="../assets/images/avatar/avatar-5.jpg" alt="Jon Oliver">
-                  <div>
-                    <p class="fw-semibold mb-0">Jon Oliver</p>
-                    <p class="text-muted small mb-0">jon@example.com</p>
-                  </div>
-                </div>
-              </td>
-              <td>Analyst</td>
-              <td>Data</td>
-              <td><span class="badge text-bg-success">Active</span></td>
-              <td>Apr 22, 2026</td>
-              <td class="text-end"><a class="btn btn-light btn-sm" href="user-details.html">View</a></td>
-            </tr>
+          </thead>
+          <tbody>            
           </tbody>
         </table>
       </div>
-      <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3 mt-3">
-        <p class="text-muted small mb-0">Showing 1 to 5 of 124 users</p>
-        <nav aria-label="Users pagination"><ul class="pagination pagination-sm mb-0"><li class="page-item disabled"><a class="page-link" href="#">Previous</a></li><li class="page-item active"><a class="page-link" href="#">1</a></li><li class="page-item"><a class="page-link" href="#">2</a></li><li class="page-item"><a class="page-link" href="#">Next</a></li></ul></nav>
-      </div>
     </section>
   </div>
+@endsection
+@section('scripts')
+<script>
+console.log('test');
+const table = $('#clientTable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route("clients-list") }}",
+
+        columns: [
+            {
+                data: 'DT_RowIndex',
+                name: 'DT_RowIndex',
+                searchable: false,
+                orderable: false
+            },
+            {
+                data: 'client_name',
+                name: 'client_name'
+            },
+            {
+                data: 'company_name',
+                name: 'company_name'
+            },
+            {
+                data: 'email',
+                name: 'email'
+            },
+            {
+                data: 'mobile',
+                name: 'mobile'
+            },
+            {
+                data: 'action',
+                name: 'action',
+                searchable: false,
+                orderable: false
+            }
+        ]
+    });
+
+
+</script>
+
 @endsection

@@ -89,7 +89,6 @@
 {{-- <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script> --}}
 @section('scripts')
 <script>
-    fetchCompanies();
     const table = $('#companyTable').DataTable({
         processing: true,
         serverSide: true,
@@ -118,9 +117,7 @@
             }
         ]
     });
-    function fetchCompanies(){
-        
-    }
+    
     function openmodal() {
         $("#pmUserModal").modal("show");
     }    
