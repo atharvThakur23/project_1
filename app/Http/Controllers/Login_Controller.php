@@ -21,9 +21,9 @@ class Login_Controller extends Controller
         ]);
 
         $post = $request->all();       
-
-
-        if (Auth::attempt($credentials)) {
+        $remember = $request->has('remember');
+        // echo "<pre>"; print_r($post); die;
+        if (Auth::attempt($credentials,$remember)) {
 
             $request->session()->regenerate();
             

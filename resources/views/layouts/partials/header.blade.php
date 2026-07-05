@@ -6,9 +6,9 @@
         <span></span>
       </button>
 
-      <form class="d-none d-md-flex ms-3 flex-grow-1" role="search">
+      {{-- <form class="d-none d-md-flex ms-3 flex-grow-1" role="search">
         <input class="form-control search-input" type="search" placeholder="Search users, orders, reports" aria-label="Search">
-      </form>
+      </form> --}}
 
       <div class="navbar-actions ms-auto">
         <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" title="Switch color theme">
@@ -38,14 +38,14 @@
 
         <div class="dropdown">
           <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img class="avatar-img avatar-sm" src="../assets/images/avatar/avatar.jpg" alt="{{ session('name') ?? 'Admin' }}">
+            <img class="avatar-img avatar-sm" src="{{ asset('assets/images/avatar/profile.png') }}" alt="{{ session('name') ?? 'Admin' }}">
             <span class="profile-name d-none d-sm-inline">{{ session('name') ?? 'Admin' }}</span>
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="profile.html">Profile</a></li>
-            <li><a class="dropdown-item" href="settings.html">Account settings</a></li>
+            {{-- <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+            <li><a class="dropdown-item" href="settings.html">Account settings</a></li> --}}
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="login.html">Sign out</a></li>
+            <li><a class="dropdown-item" href="{{ route('logout') }}">Log out</a></li>
           </ul>
         </div>
       </div>

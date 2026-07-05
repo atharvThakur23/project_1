@@ -117,3 +117,4 @@ PRIMARY KEY (`company_id`)) ENGINE = InnoDB;
 ALTER TABLE `clients` ADD `company_id` INT NULL DEFAULT NULL AFTER `client_comp_name`;
 ALTER TABLE `clients` CHANGE `client_comp_name` `client_comp_name` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
 ALTER TABLE `clients` ADD `expected_revenue` DECIMAL(11, 2) NOT NULL AFTER `dob`;
+ALTER TABLE `user` ADD `remember_token` TEXT NULL DEFAULT NULL AFTER `phone`;

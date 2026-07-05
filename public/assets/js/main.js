@@ -159,8 +159,8 @@
       if (sidebarWorkspaceEl) sidebarWorkspaceEl.textContent = user.workspace;
       if (sidebarAvatar && user.avatar) { sidebarAvatar.src = user.avatar; sidebarAvatar.alt = user.name; }
 
-      Array.prototype.forEach.call(profileNameEls, function (el) { el.textContent = user.name; });
-      Array.prototype.forEach.call(profileAvatarEls, function (img) { if (user.avatar) img.src = user.avatar; if (user.name) img.alt = user.name; });
+      // Array.prototype.forEach.call(profileNameEls, function (el) { el.textContent = user.name; });
+      // Array.prototype.forEach.call(profileAvatarEls, function (img) { if (user.avatar) img.src = user.avatar; if (user.name) img.alt = user.name; });
     }
 
     initUserProfile();

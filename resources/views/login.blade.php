@@ -17,13 +17,11 @@
   </button>
   <main class="auth-page">
     <section class="auth-card">
-      <a class="auth-brand" href="index.html"><span class="brand-icon"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i></span><span><strong>adminHMD</strong><small>Sign in to your admin workspace.</small></span></a>
-      <div class="auth-visual"><img src="{{ asset('assets/images/png/dasher-ui-bootstrap-5.jpg') }}" alt="adminHMD dashboard interface"></div>
       <form class="needs-validation" novalidate method="POST" id="loginFrm">
         <div class="mb-4">
           <p class="eyebrow mb-1">Secure Access</p>
           <h1 class="h3 mb-1">Login</h1>
-          <p class="text-muted mb-0">Sign in to your admin workspace.</p>
+          <p class="text-muted mb-0">Sign in to your workspace.</p>
         </div>
         <div class="mb-3">          
           <label class="form-label" for="user_name">User Name</label>
@@ -33,7 +31,7 @@
         <div class="mb-3">
           <div class="d-flex justify-content-between">
             <label class="form-label" for="loginPassword">Password</label>
-            <a class="small fw-semibold" href="forgot-password.html">Forgot?</a>
+            {{-- <a class="small fw-semibold" href="forgot-password.html">Forgot?</a> --}}
           </div>
           <input class="form-control" id="loginPassword" type="password" required>
           <div class="invalid-feedback">Enter Valid Password.</div>
@@ -45,7 +43,7 @@
         </button>
       </form>
       
-      <div class="auth-footer">New here? <a href="register.html">Create an account</a></div>
+      {{-- <div class="auth-footer">New here? <a href="register.html">Create an account</a></div> --}}
     </section>
   </main>
 
@@ -86,6 +84,7 @@
                 data: {
                     user_name: user_name,
                     password: loginPassword,
+                    remember: $("#rememberMe").is(":checked"),
                     _token: "{{ csrf_token() }}"
                 },
                 dataType: "json",
