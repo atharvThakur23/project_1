@@ -10,7 +10,7 @@
         <span class="page-icon"><i class="bi bi-person-plus" aria-hidden="true"></i></span>
         <div>
           <p class="eyebrow mb-1">Management</p>
-          <h1 class="h3 mb-1">Add Client</h1>
+          <h1 class="h3 mb-1">{{ $client->client_id ? 'Edit Client' : 'Add Client' }}</h1>
           {{-- <p class="text-muted mb-0">Create a new client account with role and team assignments.</p> --}}
         </div>
       </div>
@@ -26,21 +26,22 @@
       <div class="col-12 col-xl-12">
         <form class="panel needs-validation" novalidate method="POST" id="clientForm">
             @csrf
+            <input type="hidden" name="client_id" id="client_id" value="{{ $client->client_id ?? '' }}">
           <div class="panel-header"><div><h2 class="h5 mb-1 section-title"><i class="bi bi-person-plus" aria-hidden="true"></i><span>Client Information</span></h2><p class="text-muted mb-0">Create a client account with validated fields.</p></div></div>
           <div class="row g-3">
             <div class="col-md-6">
                 <label class="form-label" for="client_name">Client name</label>
-                <input class="form-control" id="client_name" name="client_name" type="text" required>
+                <input class="form-control" id="client_name" name="client_name" value="{{ $client->client_name ?? '' }}" type="text" required>
                 <div class="invalid-feedback">Please enter a valid client name.</div>
             </div>
             <div class="col-md-6">
                 <label class="form-label" for="email">Email</label>
-                <input class="form-control" id="email" name="email" type="email" required>
+                <input class="form-control" id="email" name="email" value="{{ $client->email ?? '' }}" type="email" required>
                 <div class="invalid-feedback">Please enter email address.</div>
             </div>
             <div class="col-md-6">
                 <label class="form-label" for="phone">Phone</label>
-                <input class="form-control" id="phone" name="phone" type="tel" required>
+                <input class="form-control" id="phone" name="phone" value="{{ $client->mob ?? '' }}" type="tel" required>
                 <div class="invalid-feedback">Please enter phone number.</div>
             </div>
             <div class="col-md-6">
@@ -49,7 +50,9 @@
                     <option value="">Choose company</option>
                     @if(!empty($companies))
                         @foreach($companies as $company)
-                            <option value="{{ $company->company_id }}">{{ $company->company_name }}</option>
+                            <option value="{{ $company->company_id }}" {{ $client->company_id == $company->company_id ? 'selected' : '' }}>
+                                {{ $company->company_name }}
+                            </option>
                         @endforeach
                     @endif                    
                 </select>
@@ -57,24 +60,23 @@
             </div>
             <div class="col-md-6">
                 <label class="form-label" for="revenue_expected">Revenue Expected</label>
-                <input class="form-control" id="revenue_expected" name="revenue_expected" type="number" required>
+                <input class="form-control" id="revenue_expected" name="revenue_expected" value="{{ $client->expected_revenue ?? '' }}" type="number" required>
                 <div class="invalid-feedback">Please enter expected revenue.</div>
             </div>
             <div class="col-md-6">
                 <label class="form-label" for="dob">Date of Birth</label>
-                <input class="form-control" id="dob" name="dob" type="date" required>
+                <input class="form-control" id="dob" name="dob" value="{{ $client->dob ?? '' }}" type="date" required>
                 <div class="invalid-feedback">Please enter date of birth.</div>
             </div>
             <div class="col-12">
                 <label class="form-label" for="address">Address</label>
-                <textarea class="form-control" id="address" name="address" rows="4" placeholder="Enter client address">
-                </textarea>
+                <textarea class="form-control" id="address" name="address" rows="4" placeholder="Enter client address">{{ $client->address ?? '' }}</textarea>
             </div>
           </div>
           <div class="d-flex flex-wrap justify-content-end gap-2 mt-4">
             <a class="btn btn-outline-secondary" href="{{ route('clients') }}">Cancel</a>
             <button class="btn btn-primary" type="submit">
-                <i class="bi bi-person-check" aria-hidden="true"></i> Create Client
+                <i class="bi bi-person-check" aria-hidden="true"></i> {{ isset($client->client_id) ? 'Update Client' : 'Create Client' }}
             </button>
         </div>
         </form>
@@ -145,7 +147,7 @@
         },
         submitHandler: function(form) {
             $.ajax({
-                url: "{{ route('clients-add') }}",
+                url: "{{ route('clients-add-update') }}",
                 type: "POST",
                 data: $(form).serialize(),
                 dataType: "json",
@@ -178,7 +180,7 @@
         }
     });
 
-    function save_client(){
+    {{-- function save_client(){
 
         $.ajax({
             url: "{{ route('clients-add') }}",
@@ -195,7 +197,7 @@
                 alert(xhr.responseJSON.message);
             }
         });
-    }
+    } --}}
 
 
 </script>

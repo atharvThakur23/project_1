@@ -99,11 +99,12 @@
         <table class="table align-middle mb-0" id="clientTable" data-searchable-table>
           <thead>
             <tr>
-              <th scope="col">Client Name</th>
-              <th scope="col">Company</th>
-              <th scope="col">Email</th>
-              <th scope="col">Mobile</th>
-              <th scope="col">Action</th>
+              <th scope="col" style="width: 2%;text-align: center;">Sr. No.</th>
+              <th scope="col" style="width: 10%;text-align: center;">Client Name</th>
+              <th scope="col" style="width: 7%;text-align: center;">Company</th>
+              <th scope="col" style="width: 5%;text-align: center;">Email</th>
+              <th scope="col" style="width: 5%;text-align: center;">Mobile</th>
+              <th scope="col" style="width: 5%;text-align: center;">Action</th>
             </tr>
           </thead>
           <tbody>            
@@ -153,6 +154,46 @@ const table = $('#clientTable').DataTable({
         ]
     });
 
+    function deleteClient(clientId) {
+        if (confirm('Are you sure you want to delete this client?')) {
+            $.ajax({
+                url: '{{ route("client-delete") }}',
+                type: 'POST',
+                data: {
+                    client_id: clientId,
+                    _token: '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                success: function(response) {
+                  if(response.status) {
+                        iziToast.success({
+                            title: 'Success',
+                            message: response.message,
+                            position: 'topRight',
+                            timeout: 2500
+                        });
+                        table.ajax.reload();
+                    } else {
+                        iziToast.error({
+                            title: 'Error',
+                            message: response.message,
+                            position: 'topRight',
+                            timeout: 2500
+                        });
+                    }
+                    
+                },
+                error: function(xhr) {
+                    alert('An error occurred while deleting the client.');
+                }
+            });
+        }
+    }
+
+    function whatsApp_messages(number){
+        var url = "https://api.whatsapp.com/send?phone="+number;
+        window.open(url, '_blank');
+    }
 
 </script>
 

@@ -30,3 +30,6 @@ Route::post('/company-update', [Company_Controller::class, 'update_company'])->n
 Route::post('/company-delete', [Company_Controller::class, 'delete_company'])->name('company-delete');
 
 Route::get('/call-log', [Call_Log_Controller::class, 'call_log'])->name('call-log');
+Route::get('/client-search', [Call_Log_Controller::class, 'client_search'])->name('client-search');
+Route::post('/get-tags', [Call_Log_Controller::class, 'get_tags'])->name('get-tags');
+Route::post('/save-call-log', [Call_Log_Controller::class, 'save_call_log'])->name('save-call-log');

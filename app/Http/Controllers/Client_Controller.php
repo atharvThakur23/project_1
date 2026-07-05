@@ -6,21 +6,36 @@ use App\Models\{Clients,Companies};
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Facades\DataTables;
 
 class Client_Controller extends Controller
 {
     public function index()
     {
-        return view('clients_list');
+        return view('masters.clients_list');
     }
 
-    public function addedit()
+    public function addedit($client_id = "")
     {
+        if(!empty($client_id)){
+            $client = Clients::where('client_id', $client_id)
+                ->where('is_delete', 0)
+                ->first();
+            if(!$client){
+                return redirect()->route('clients')->with('error', 'Client not found.');
+            }
+        } else {
+            $client = [];
+        }
+        
+        // echo "<pre>"; print_r($client); die;
+
         $companies = Companies::where('is_delete', 0)->where('status', 1)->get();
-        return view('client_add_edit', compact('companies'));
+
+        return view('masters.client_add_edit', compact('companies','client'));
     }
 
-    public function add(Request $request)
+    public function add_update(Request $request)
     {
         // Validate the request data
         $validatedData = $request->validate([
@@ -34,27 +49,83 @@ class Client_Controller extends Controller
 
         $post = $request->all();
         // echo "<pre>"; print_r($post); die;
-        $is_saved = Clients::create([
-            'client_name' => trim($post['client_name']),
-            'company_id' => trim($post['company']),
-            'email' => trim($post['email']),
-            'mob' => trim($post['phone']),
-            'dob' => $post['dob'] ?? null,
-            'expected_revenue' => $post['revenue_expected'] ?? null,
-            'address' => $post['address'] ?? null,
-            'register_by' => session('user_id'), 
-        ]);
-        if (!$is_saved) {
-            return json_encode(['status' => false, 'message' => 'Failed to add client. Please try again.']);
-        }
+        if(!empty($post['client_id'])){
+            $is_updated = Clients::where('client_id', $post['client_id'])->update([
+                'client_name' => trim($post['client_name']),
+                'company_id' => trim($post['company']),
+                'email' => trim($post['email']),
+                'mob' => trim($post['phone']),
+                'dob' => $post['dob'] ?? null,
+                'expected_revenue' => $post['revenue_expected'] ?? null,
+                'address' => $post['address'] ?? null,
+            ]);
+            if (!$is_updated) {
+                return json_encode(['status' => false, 'message' => 'Failed to update client. Please try again.']);
+            }
+            return json_encode(['status' => true, 'message' => 'Client updated successfully.']);
 
-        return json_encode(['status' => true, 'message' => 'Client added successfully.']);
+        } else {
+            $is_saved = Clients::create([
+                'client_name' => trim($post['client_name']),
+                'company_id' => trim($post['company']),
+                'email' => trim($post['email']),
+                'mob' => trim($post['phone']),
+                'dob' => $post['dob'] ?? null,
+                'expected_revenue' => $post['revenue_expected'] ?? null,
+                'address' => $post['address'] ?? null,
+                'register_by' => session('user_id'), 
+            ]);
+            if (!$is_saved) {
+                return json_encode(['status' => false, 'message' => 'Failed to add client. Please try again.']);
+            }
+            return json_encode(['status' => true, 'message' => 'Client added successfully.']);
+        }
     }
 
     public function clients_list(Request $request){
 
         $clients = Clients::with('company')->where('is_delete', 0)->get();
         $data = [];
-        echo "<pre>"; print_r($clients); die;
+        $sr = 1;
+        foreach ($clients as $client) {
+            // echo "<pre>"; print_r($client->client_name); die;
+            $data[] = [
+                'DT_RowIndex' => $sr++,
+                'client_id' => $client->client_id,
+                'client_name' => $client->client_name,
+                'company_name' => $client->company->company_name ?? '',
+                'email' => $client->email,
+                'mobile' => $client->mob,
+                'action' => '-',
+            ];
+        }
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                // echo "<pre>";print_r($row);exit;
+                $btn = '<a href="' . route('clients-add-edit', $row['client_id']) . '" class="edit btn btn-primary btn-sm">Edit</a>';
+                $btn .= ' <a href="javascript:void(0)" onclick="deleteClient(' . $row['client_id'] . ')" class="delete btn btn-danger btn-sm">Delete</a>';
+                $btn .= '<br> <br><a href="javascript:void(0)" onclick="whatsApp_messages(\'' . $row['mobile'] . '\')" class="btn btn-success btn-sm">WhatsApp</a>';
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);  
     }
+
+    public function delete_client(Request $request)
+    {
+        $client_id = $request->input('client_id');
+        if (empty($client_id)) {
+            return json_encode(['status' => false, 'message' => 'Client ID is required.']);
+        }
+
+        $is_deleted = Clients::where('client_id', $client_id)->update(['is_delete' => 1]);
+        if (!$is_deleted) {
+            return json_encode(['status' => false, 'message' => 'Failed to delete client. Please try again.']);
+        }
+
+        return json_encode(['status' => true, 'message' => 'Client deleted successfully.']);
+    }
+
 }

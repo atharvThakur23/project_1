@@ -7,7 +7,7 @@ use App\Models\Companies;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class Master_Controller extends Controller
+class Company_Controller extends Controller
 {
     public function company_master()
     {
