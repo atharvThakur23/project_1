@@ -2,6 +2,7 @@
 @section('title')
   Clients
 @endsection
+
 @section('content')
 <div class="container-fluid px-3 px-lg-4 py-4">
     <div class="page-heading">
@@ -14,10 +15,10 @@
         </div>
       </div>
       <div class="heading-actions">
-            <a class="btn btn-outline-secondary btn-sm" href="tables.html">
+            {{-- <a class="btn btn-outline-secondary btn-sm" href="tables.html">
                 <i class="bi bi-download" aria-hidden="true"></i> 
                 Export
-            </a>
+            </a> --}}
             <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="openmodal()">
                 <i class="bi bi-person-plus" aria-hidden="true"></i> 
                 Tag Call
@@ -32,29 +33,29 @@
             <span class="metric-label">Total Users</span>
             <span class="metric-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
           </div>
-          <div class="metric-value">8,742</div>
-          <div class="metric-meta">
+          <div class="metric-value">{{ number_format($clientCout) }}</div>
+          {{-- <div class="metric-meta">
             <span class="text-success">+5.1%</span>
             <span>this month</span>
-          </div>
+          </div> --}}
         </article>
       </div>
 
       <div class="col-12 col-sm-6 col-xl-3">
         <article class="metric-card metric-success">
           <div class="metric-top">
-            <span class="metric-label">Active</span>
+            <span class="metric-label">Todays Follow-ups</span>
             <span class="metric-icon"><i class="bi bi-check2-circle" aria-hidden="true"></i></span>
           </div>
-          <div class="metric-value">7,980</div>
-          <div class="metric-meta">
+          <div class="metric-value">{{ number_format($followUpCount) }}</div>
+          {{-- <div class="metric-meta">
             <span class="text-success">91%</span>
             <span>healthy accounts</span>
-          </div>
+          </div> --}}
         </article>
       </div>
 
-      <div class="col-12 col-sm-6 col-xl-3">
+      {{-- <div class="col-12 col-sm-6 col-xl-3">
         <article class="metric-card metric-warning">
           <div class="metric-top">
             <span class="metric-label">Pending</span>
@@ -80,7 +81,7 @@
             <span>flagged today</span>
           </div>
         </article>
-      </div>
+      </div> --}}
     </section>
 
     <section class="panel mt-3">
@@ -100,10 +101,10 @@
           <thead>
             <tr>
               <th scope="col" style="width: 2%;text-align: center;">Sr. No.</th>
-              <th scope="col" style="width: 10%;text-align: center;">Client Name</th>
-              <th scope="col" style="width: 7%;text-align: center;">Company</th>
-              <th scope="col" style="width: 5%;text-align: center;">Email</th>
-              <th scope="col" style="width: 5%;text-align: center;">Mobile</th>
+              <th scope="col" style="width: 10%;text-align: center;">Client Details</th>
+              <th scope="col" style="width: 7%;text-align: center;">Mobile/Email</th>
+              <th scope="col" style="width: 5%;text-align: center;">Last Tag</th>
+              <th scope="col" style="width: 5%;text-align: center;">Remark</th>
               <th scope="col" style="width: 5%;text-align: center;">Action</th>
             </tr>
           </thead>
@@ -177,7 +178,7 @@
     const table = $('#clientTable').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route("clients-list") }}",
+        ajax: "{{ route("call-history") }}",
 
         columns: [
             {
@@ -187,20 +188,20 @@
                 orderable: false
             },
             {
-                data: 'client_name',
-                name: 'client_name'
+                data: 'client_details',
+                name: 'client_details'
             },
             {
-                data: 'company_name',
-                name: 'company_name'
+                data: 'mob_email',
+                name: 'mob_email'
             },
             {
-                data: 'email',
-                name: 'email'
+                data: 'last_tag',
+                name: 'last_tag'
             },
             {
-                data: 'mobile',
-                name: 'mobile'
+                data: 'remark',
+                name: 'remark'
             },
             {
                 data: 'action',
@@ -312,7 +313,7 @@
                 success: function (data) {
                     
                     if(data.status){
-                        izitoast.success({
+                        iziToast.success({
                             title: 'Success',
                             message: data.message,
                             position: 'topRight'
@@ -320,7 +321,7 @@
                         table.ajax.reload(null, false);
                         $('#callTagModel').modal('hide');
                     }else{
-                        izitoast.error({
+                        iziToast.error({
                             title: 'Error',
                             message: data.message,
                             position: 'topRight'
@@ -329,6 +330,11 @@
                 }
             });
         }
+    }
+
+    function whatsApp_messages(number){
+        var url = "https://api.whatsapp.com/send?phone="+number;
+        window.open(url, '_blank');
     }
 
     

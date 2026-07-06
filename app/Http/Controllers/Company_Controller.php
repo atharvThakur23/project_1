@@ -32,8 +32,8 @@ class Company_Controller extends Controller
         ->addIndexColumn()
         ->addColumn('action', function ($row) {
             return '
-                <button class="btn btn-primary btn-sm" onclick="editCompany(' . $row['company_id'] . ')">Edit</button>
-                <button class="btn btn-danger btn-sm" onclick="deleteCompany(' . $row['company_id'] . ')">Delete</button>
+                <button class="pm-view-btn" onclick="editCompany(' . $row['company_id'] . ')"><i class="bi bi-pencil"></i></button>
+                <button class="pm-delete-btn" onclick="deleteCompany(' . $row['company_id'] . ')"><i class="bi bi-trash"></i></button>
             ';
         })
         ->rawColumns(['action'])

@@ -13,7 +13,7 @@
           <p class="text-muted mb-0">Review accounts, roles, account status, and team ownership.</p>
         </div>
       </div>
-      <div class="heading-actions">
+      {{-- <div class="heading-actions">
             <a class="btn btn-outline-secondary btn-sm" href="tables.html">
                 <i class="bi bi-download" aria-hidden="true"></i> 
                 Export
@@ -22,10 +22,10 @@
                 <i class="bi bi-person-plus" aria-hidden="true"></i> 
                 Add User
             </a>
-        </div>
+        </div> --}}
     </div>
 
-    <section class="row g-3 mt-1" aria-label="User summary">
+    {{-- <section class="row g-3 mt-1" aria-label="User summary">
       <div class="col-12 col-sm-6 col-xl-3">
         <article class="metric-card metric-primary">
           <div class="metric-top">
@@ -81,7 +81,7 @@
           </div>
         </article>
       </div>
-    </section>
+    </section> --}}
 
     <section class="panel mt-3">
       <div class="panel-header">

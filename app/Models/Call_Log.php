@@ -30,6 +30,6 @@ class Call_Log extends Model
 
     public function tag()
     {
-        return $this->belongsTo(Tags::class, 'call_tag', 'tag_id');
+        return $this->belongsTo(Tags::class, 'tag_id', 'tag_id');
     }
 }

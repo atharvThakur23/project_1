@@ -104,9 +104,9 @@ class Client_Controller extends Controller
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 // echo "<pre>";print_r($row);exit;
-                $btn = '<a href="' . route('clients-add-edit', $row['client_id']) . '" class="edit btn btn-primary btn-sm">Edit</a>';
-                $btn .= ' <a href="javascript:void(0)" onclick="deleteClient(' . $row['client_id'] . ')" class="delete btn btn-danger btn-sm">Delete</a>';
-                $btn .= '<br> <br><a href="javascript:void(0)" onclick="whatsApp_messages(\'' . $row['mobile'] . '\')" class="btn btn-success btn-sm">WhatsApp</a>';
+                $btn = '<a href="' . route('clients-add-edit', $row['client_id']) . '" class="pm-view-btn"><i class="bi bi-pencil"></i></a>';
+                $btn .= ' <a href="javascript:void(0)" onclick="deleteClient(' . $row['client_id'] . ')" class="pm-delete-btn"><i class="bi bi-trash"></i></a>';
+                $btn .= ' <a href="javascript:void(0)" onclick="whatsApp_messages(\'' . $row['mobile'] . '\')" class="pm-whatsapp-btn"><i class="bi bi-whatsapp"></i></a>';
                 return $btn;
             })
             ->rawColumns(['action'])
