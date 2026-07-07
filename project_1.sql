@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 06, 2026 at 12:54 AM
+-- Generation Time: Jul 07, 2026 at 07:27 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,7 +45,17 @@ CREATE TABLE `call_logs` (
 --
 
 INSERT INTO `call_logs` (`call_id`, `client_id`, `status`, `tag_id`, `follow_up_date`, `is_follow_up`, `remark`, `call_datetime`, `created_by`, `is_delete`) VALUES
-(1, 1, 1, 6, NULL, NULL, '11', '2026-07-06 04:22:21', 1, 0);
+(1, 1, 1, 6, NULL, NULL, '11', '2026-07-06 04:22:21', 1, 0),
+(2, 1, 1, 7, '2026-07-07', 1, 'test 11', '2026-07-06 11:34:47', 1, 0),
+(3, 3, 1, 9, NULL, NULL, 'test 22', '2026-07-06 12:30:07', 1, 0),
+(4, 2, 0, 1, NULL, NULL, 'calling letter', '2026-07-06 12:46:03', 1, 0),
+(6, 1, 1, 6, NULL, NULL, 'test 33', '2026-07-06 13:24:02', 1, 0),
+(7, 2, 1, 7, '2026-07-06', 1, 'take follow up on Tuesday', '2026-07-06 13:26:43', 1, 0),
+(8, 3, 1, 6, NULL, NULL, 'hvhhghgchgc', '2026-07-06 14:33:11', 1, 0),
+(9, 3, 1, 6, NULL, NULL, 'hvhhghgchgc', '2026-07-06 14:33:13', 1, 0),
+(10, 3, 1, 7, '2026-07-06', 1, 'vggdgdiu', '2026-07-06 14:34:35', 1, 0),
+(11, 3, 1, 8, NULL, NULL, 'trrt', '2026-07-07 21:48:30', 1, 0),
+(12, 2, 1, 9, NULL, NULL, 'not interested in plan', '2026-07-07 22:33:09', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -76,8 +86,8 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`client_id`, `client_name`, `client_comp_name`, `company_id`, `mob`, `email`, `dob`, `expected_revenue`, `address`, `register_date`, `register_by`, `updated_date`, `updated_by`, `is_active`, `is_delete`) VALUES
-(1, 'Atharv', NULL, 2, '8446932227', 'atharvthakur910@gmail.com', '2026-07-02', 97800.00, 'afsc', '2026-07-03 21:30:59', 1, NULL, NULL, 1, 0),
-(2, 'Raj', NULL, 1, '8446932227', 'atharvthakur910@gmail.com', '2026-07-04', 22222.00, 'szfsfsaf', '2026-07-03 21:33:08', 1, NULL, NULL, 1, 1),
+(1, 'Atharv', NULL, 2, '8446932227', 'atharvthakur910@gmail.com', '2026-07-07', 97800.00, 'afsc', '2026-07-03 21:30:59', 1, NULL, NULL, 1, 0),
+(2, 'Raj', NULL, 1, '8446932227', 'raj@gmail.com', '2026-07-07', 22222.00, 'szfsfsaf', '2026-07-03 21:33:08', 1, NULL, NULL, 1, 0),
 (3, 'Vaibhav', NULL, 1, '9699726506', 'v@gmail.com', '2009-09-19', 6700.00, 'ranjankhar,alibag,', '2026-07-05 11:05:03', 1, NULL, NULL, 1, 0);
 
 -- --------------------------------------------------------
@@ -212,7 +222,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `call_logs`
 --
 ALTER TABLE `call_logs`
-  MODIFY `call_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `call_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `clients`
