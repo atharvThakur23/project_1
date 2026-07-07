@@ -33,4 +33,5 @@ Route::get('/call-log', [Call_Log_Controller::class, 'call_log'])->name('call-lo
 Route::get('/client-search', [Call_Log_Controller::class, 'client_search'])->name('client-search');
 Route::post('/get-tags', [Call_Log_Controller::class, 'get_tags'])->name('get-tags');
 Route::post('/save-call-log', [Call_Log_Controller::class, 'save_call_log'])->name('save-call-log');
-Route::get('/call-history', [Call_Log_Controller::class, 'call_history'])->name('call-history');
+Route::get('/view-call-log', [Call_Log_Controller::class, 'view_call_log'])->name('view-call-log');
+Route::post('/call-history', [Call_Log_Controller::class, 'call_history'])->name('call-history');

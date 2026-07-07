@@ -102,16 +102,34 @@
           <div class="panel h-100">
             <div class="panel-header">
               <div>
-                <h2 class="h5 mb-1 section-title"><i class="bi bi-activity" aria-hidden="true"></i><span>Team Activity</span></h2>
-                <p class="text-muted mb-0">Recent operational updates.</p>
+                <h2 class="h5 mb-1 section-title">
+                  <i class="bi bi-cake2" aria-hidden="true"></i>
+                  <span>Today's Birthday 🎉</span>
+                </h2>
+                <p class="text-muted mb-0">Today's Clients birthday! 🎂</p>
               </div>
             </div>
-
-            <div class="activity-list">
-              <div class="activity-item"><span class="activity-dot bg-primary"></span><div><p class="mb-1 fw-semibold">New campaign launched</p><p class="text-muted small mb-0">Marketing team published the May offer.</p></div></div>
-              <div class="activity-item"><span class="activity-dot bg-success"></span><div><p class="mb-1 fw-semibold">Payment batch cleared</p><p class="text-muted small mb-0">246 invoices were processed successfully.</p></div></div>
-              <div class="activity-item"><span class="activity-dot bg-warning"></span><div><p class="mb-1 fw-semibold">Support queue rising</p><p class="text-muted small mb-0">Average first response time is 18 minutes.</p></div></div>
-            </div>
+            @if(!empty($birthDays) && count($birthDays) > 0)
+              @foreach($birthDays as $birthDay)
+                <div class="activity-list">
+                  <div class="activity-item">
+                    <span class="activity-dot bg-primary"></span>
+                    <div>
+                      <p class="mb-1 fw-semibold">{{ $birthDay->client_name }}</p>
+                      <p class="text-muted small mb-0">Happy birthday {{ $birthDay->client_name }}! 🎉</p>
+                    </div>
+                  </div>
+                </div><hr>
+              @endforeach
+            @else
+              <div class="activity-list">
+                <div class="activity-item">
+                  <div>
+                    <p class="mb-1 fw-semibold">No Birthday Today</p>
+                    <p class="text-muted small mb-0">No clients have birthday today.</p>
+                  </div>
+                </div>
+            @endif
           </div>
         </div>
       </section>

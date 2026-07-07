@@ -25,7 +25,7 @@ class Client_Controller extends Controller
                 return redirect()->route('clients')->with('error', 'Client not found.');
             }
         } else {
-            $client = [];
+            $client = (object) [];
         }
         
         // echo "<pre>"; print_r($client); die;

@@ -21,12 +21,20 @@ class Call_Log_Controller extends Controller
                         ->whereDate('follow_up_date', Carbon::today())
                         ->get();
         $followUpCount = count($followUpCalls);
+
+        $dueFollowUpCalls = Call_Log::where('tag_id', 7)
+                        ->where('is_follow_up', 0)
+                        ->whereDate('follow_up_date', '<', Carbon::today())
+                        ->get();
+        $dueFollowUpCount = count($dueFollowUpCalls);
+
+
         // echo "<pre>";print_r(count($followUpCalls));die;
         
-        return view('call_log', compact('clients','clientCout','followUpCount'));
+        return view('call_log', compact('clients','clientCout','followUpCount','dueFollowUpCount'));
     }
 
-    public function call_history(Request $request)
+    public function view_call_log(Request $request)
     {
         $latestCalls = Call_Log::query()
         ->select('client_id', DB::raw('MAX(call_id) as last_call_id'))
@@ -50,6 +58,7 @@ class Call_Log_Controller extends Controller
                     'DT_RowIndex' => $i++,
                     'call_id' => $log->call_id,
                     'client_name' => $log->client->client_name ?? '',
+                    'client_id' => $log->client_id,
                     'company_name' => $log->client->company->company_name ?? '',
                     'mob' => $log->client->mob ?? '',
                     'email' => $log->client->email ?? '',
@@ -89,8 +98,9 @@ class Call_Log_Controller extends Controller
             return $lastTag;
         })
         ->addColumn('action', function ($row) {
-            $actionBtn = '<a href="javascript:void(0)" onclick="view_call_log(\'' . $row['call_id'] . '\')" class="pm-view-btn"><i class="bi bi-eye"></i></a>';
+            $actionBtn = '<a href="javascript:void(0)" onclick="view_call_log(\'' . $row['client_id'] . '\')" class="pm-view-btn"><i class="bi bi-eye"></i></a>';
             $actionBtn .= '&nbsp;<a href="javascript:void(0)" onclick="whatsApp_messages(\'' . $row['mob'] . '\')" class="pm-whatsapp-btn"><i class="bi bi-whatsapp"></i></a>';
+            $actionBtn .= '&nbsp;<a href="javascript:void(0)" onclick="tagCall(\'' . $row['client_id'] . '\')" class="pm-view-btn"><i class="bi bi-telephone-plus"></i></a>';
             return $actionBtn;
         })
         ->rawColumns(['client_details','mob_email','last_tag','action'])
@@ -177,5 +187,36 @@ class Call_Log_Controller extends Controller
         }
 
         return response()->json(['status' => false, 'message' => 'Failed to save call log.']);
+    }
+
+    public function call_history(Request $request)
+    {
+        $client_id = $request->input('client_id');
+        if(empty($client_id)){
+            return response()->json(['status' => false, 'message' => 'Client ID is required.']);
+        }
+        $call_logs = Call_Log::with(['tag'])
+            ->where('client_id', $client_id)
+            ->where('is_delete', 0)
+            ->orderBy('call_datetime', 'desc')
+            ->get();
+        $logs = [];
+        foreach ($call_logs as $log) {
+            $logs[] = [
+                'call_id' => $log->call_id,
+                'tag_id' => $log->tag_id,
+                'tag_name' => $log->tag->tag_name ?? '',
+                'status' => ($log->status == 1) ? 'Connected' : 'Not Connected',
+                'remark' => $log->remark,
+                'follow_up_date' => $log->follow_up_date,
+                'created_at' => $log->created_at,
+                'follow_up_status' => ($log->is_follow_up == 0 && $log->tag_id == 7) ? 'Pending' : 'Completed',
+                'follow_up_date' => $log->follow_up_date ? date('d-M-Y', strtotime($log->follow_up_date)) : '',
+                'call_datetime' => $log->call_datetime ? date('d-M-Y h:i A', strtotime($log->call_datetime)) : '',
+            ];
+        }
+
+        // echo "<pre>"; print_r($logs); die;
+        return json_encode($logs);
     }
 }

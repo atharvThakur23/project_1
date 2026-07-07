@@ -10,7 +10,7 @@
         <span class="page-icon"><i class="bi bi-person-plus" aria-hidden="true"></i></span>
         <div>
           <p class="eyebrow mb-1">Management</p>
-          <h1 class="h3 mb-1">{{ $client->client_id ? 'Edit Client' : 'Add Client' }}</h1>
+          <h1 class="h3 mb-1">{{ ($client->client_id ?? null) ? 'Edit Client' : 'Add Client' }}</h1>
           {{-- <p class="text-muted mb-0">Create a new client account with role and team assignments.</p> --}}
         </div>
       </div>
@@ -50,7 +50,7 @@
                     <option value="">Choose company</option>
                     @if(!empty($companies))
                         @foreach($companies as $company)
-                            <option value="{{ $company->company_id }}" {{ $client->company_id == $company->company_id ? 'selected' : '' }}>
+                            <option value="{{ $company->company_id }}" {{ isset($client->company_id) && $client->company_id == $company->company_id ? 'selected' : '' }}>
                                 {{ $company->company_name }}
                             </option>
                         @endforeach

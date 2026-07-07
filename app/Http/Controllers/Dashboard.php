@@ -22,6 +22,11 @@ class Dashboard extends Controller
                         ->get();
         $followUpCount = count($followUpCalls);
 
-        return view('dashboard',compact('expected_revenue','clientCout','clients','followUpCount'));
+        $birthDays = Clients::where('is_delete', 0)
+                    ->whereMonth('dob', Carbon::now()->month)
+                    ->whereDay('dob', Carbon::now()->day)
+                    ->get();
+
+        return view('dashboard',compact('expected_revenue','clientCout','clients','followUpCount','birthDays'));
     }
 }
