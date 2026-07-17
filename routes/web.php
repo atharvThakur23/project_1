@@ -21,6 +21,7 @@ Route::get('/clients-add-edit/{client_id?}', [Client_Controller::class, 'addedit
 Route::post('/clients-add-update', [Client_Controller::class, 'add_update'])->name('clients-add-update');
 Route::get('/clients-list', [Client_Controller::class, 'clients_list'])->name('clients-list');
 Route::post('/client-delete', [Client_Controller::class, 'delete_client'])->name('client-delete');
+Route::post('/upload-client', [Client_Controller::class, 'upload_client'])->name('upload-client');
 
 Route::get('/company-master', [Company_Controller::class, 'company_master'])->name('company-master');
 Route::post('/company-save', [Company_Controller::class, 'save_company'])->name('company-save');

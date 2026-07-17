@@ -45,9 +45,9 @@
                 <div class="invalid-feedback">Please enter phone number.</div>
             </div>
             <div class="col-md-6">
-                <label class="form-label" for="company">Company</label>
+                <label class="form-label" for="company">Product</label>
                 <select class="form-select" id="company" name="company" required>
-                    <option value="">Choose company</option>
+                    <option value="">Choose Product</option>
                     @if(!empty($companies))
                         @foreach($companies as $company)
                             <option value="{{ $company->company_id }}" {{ isset($client->company_id) && $client->company_id == $company->company_id ? 'selected' : '' }}>

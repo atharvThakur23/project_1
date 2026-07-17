@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://cab-kerry-affordable-houston.trycloudflare.com/project_1'),
+    'url' => env('APP_URL', 'http://localhost/project_1'),
 
     /*
     |--------------------------------------------------------------------------

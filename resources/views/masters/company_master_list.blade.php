@@ -9,7 +9,7 @@
         <span class="page-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
         <div>
           <p class="eyebrow mb-1">Masters</p>
-          <h1 class="h3 mb-1">Company</h1>
+          <h1 class="h3 mb-1">Products</h1>
         </div>
       </div>
     </div>
@@ -18,13 +18,13 @@
       <div class="panel-header">
         <div>
           <h2 class="h5 mb-1 section-title"><i class="bi bi-table" aria-hidden="true"></i>
-            <span>Company List</span>
+            <span>Product List</span>
         </h2>
         </div>
         <div class="d-flex flex-wrap gap-2">
-          {{-- <input class="form-control form-control-sm table-search" type="search" placeholder="Search Company" data-table-search="usersTable" aria-label="Search users"> --}}
+          {{-- <input class="form-control form-control-sm table-search" type="search" placeholder="Search Product" data-table-search="usersTable" aria-label="Search users"> --}}
           <a class="btn btn-primary btn-sm" href="#" onclick="openmodal()">
-            <i class="bi bi-person-plus" aria-hidden="true"></i> Add Company</a>
+            <i class="bi bi-person-plus" aria-hidden="true"></i> Add Product</a>
         </div>
       </div>
       <div class="table-responsive">
@@ -32,7 +32,7 @@
           <thead>
             <tr>
                 <th scope="col" style="width: 2%;text-align: center;">Sr.</th>
-                <th scope="col" style="width: 40%;text-align: center;">Company Name</th>
+                <th scope="col" style="width: 40%;text-align: center;">Product Name</th>
                 <th scope="col" style="width: 5%;text-align: center;">Status</th>
                 <th scope="col" style="width: 5%;text-align: center;">Actions</th>
             </tr>
@@ -51,7 +51,7 @@
         <div class="modal-content pm-modal-content">
 
             <div class="modal-header pm-modal-header">
-                <h5 class="modal-title" id="pmUserModalLabel">Company Information</h5>
+                <h5 class="modal-title" id="pmUserModalLabel">Product Information</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
@@ -59,8 +59,8 @@
                 <form id="addCompanyForm" method="POST">
                     <input type="hidden" id="pm_company_id" name="company_id" value="">
                     <div class="pm-form-group">
-                        <label class="pm-label">Company Name</label>
-                        <input type="text" class="form-control pm-input" id="pm_name" name="name" placeholder="Enter company name">
+                        <label class="pm-label">Product Name</label>
+                        <input type="text" class="form-control pm-input" id="pm_name" name="name" placeholder="Enter product name">
                     </div>
 
                     <div class="pm-form-group">

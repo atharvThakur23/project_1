@@ -7,6 +7,8 @@ use App\Models\{Clients,Companies};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class Client_Controller extends Controller
 {
@@ -126,6 +128,46 @@ class Client_Controller extends Controller
         }
 
         return json_encode(['status' => true, 'message' => 'Client deleted successfully.']);
+    }
+
+    public function upload_client(Request $request)
+    {
+        // Validate the request data
+        $validatedData = $request->validate([
+            'upload' => 'required|file|mimes:xlsx,xls',
+        ]);
+
+        // Handle the uploaded file
+        if ($request->hasFile('upload')) {
+            $file = $request->file('upload');
+            $data = Excel::toArray([], $file);
+            // echo "<pre>"; print_r($data); die;
+            for($i=1; $i<count($data[0]); $i++){
+                $row = $data[0][$i];
+                $dob = Date::excelToDateTimeObject(strtotime($row[3]))->format('Y-m-d');
+                echo "<pre>"; print_r($dob); die;
+                if(!empty($row[0]) && !empty($row[1]) && !empty($row[2]) && !empty($row[3])){
+                    Clients::create([
+                        'client_name' => trim($row[0]),
+                        'company_id' => trim($row[1]),
+                        'email' => trim($row[2]),
+                        'mob' => trim($row[3]),
+                        'dob' => $row[4] ?? null,
+                        'expected_revenue' => $row[5] ?? null,
+                        'address' => $row[6] ?? null,
+                        'register_by' => session('user_id'), 
+                    ]);
+                }
+            }
+            $filePath = $file->store('uploads', 'public');
+
+            // Process the uploaded file (e.g., read data, save to database, etc.)
+            // You can use a library like PhpSpreadsheet to read Excel files
+
+            return json_encode(['status' => true, 'message' => 'File uploaded successfully.', 'file_path' => $filePath]);
+        } else {
+            return json_encode(['status' => false, 'message' => 'No file uploaded.']);
+        }
     }
 
 }
