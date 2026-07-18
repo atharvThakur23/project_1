@@ -30,4 +30,7 @@ class Clients extends Model
     {
         return $this->belongsTo(Companies::class, 'company_id', 'company_id');
     }
+    public function callLog(){
+        return $this->hasMany(Call_Log::class,'client_id','client_id');
+    }
 }

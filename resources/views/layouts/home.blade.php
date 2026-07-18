@@ -69,6 +69,11 @@
         text-decoration: none;
         transition: all .3s ease;
     }
+    table td,
+    table th {
+        text-align: left !important;
+        vertical-align: middle;
+    }
   </style>
 
 </head>

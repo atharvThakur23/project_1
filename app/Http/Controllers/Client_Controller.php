@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Concerns\ToArray;
+use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class Client_Controller extends Controller
@@ -140,31 +142,52 @@ class Client_Controller extends Controller
         // Handle the uploaded file
         if ($request->hasFile('upload')) {
             $file = $request->file('upload');
-            $data = Excel::toArray([], $file);
+
+            // Inline Import Class
+            $import = new class implements ToArray, WithCalculatedFormulas {
+                public function array(array $array)
+                {
+                    return $array;
+                }
+            };
+
+            $data = Excel::toArray($import, $file)[0];
+
+            foreach ($data as $key => &$row) {
+
+                // Skip header row
+                if ($key == 0) {
+                    continue;
+                }
+
+                if (!empty($row[3]) && is_numeric($row[3])) {
+                    $row[3] = Date::excelToDateTimeObject($row[3])->format('Y-m-d');
+                }
+                
+            }
             // echo "<pre>"; print_r($data); die;
-            for($i=1; $i<count($data[0]); $i++){
-                $row = $data[0][$i];
-                $dob = Date::excelToDateTimeObject(strtotime($row[3]))->format('Y-m-d');
-                echo "<pre>"; print_r($dob); die;
+            
+            for($i=1; $i<count($data); $i++){
+                $row = $data[$i];
+                // $dob = Date::excelToDateTimeObject(strtotime($row[3]))->format('Y-m-d');
+                // echo "<pre>"; print_r($row); die;
                 if(!empty($row[0]) && !empty($row[1]) && !empty($row[2]) && !empty($row[3])){
-                    Clients::create([
+                    $insert = Clients::create([
                         'client_name' => trim($row[0]),
-                        'company_id' => trim($row[1]),
                         'email' => trim($row[2]),
-                        'mob' => trim($row[3]),
-                        'dob' => $row[4] ?? null,
+                        'mob' => trim($row[1]),
+                        'dob' => $row[3] ?? null,
                         'expected_revenue' => $row[5] ?? null,
-                        'address' => $row[6] ?? null,
+                        'address' => $row[4] ?? null,
                         'register_by' => session('user_id'), 
                     ]);
                 }
             }
-            $filePath = $file->store('uploads', 'public');
 
             // Process the uploaded file (e.g., read data, save to database, etc.)
             // You can use a library like PhpSpreadsheet to read Excel files
 
-            return json_encode(['status' => true, 'message' => 'File uploaded successfully.', 'file_path' => $filePath]);
+            return json_encode(['status' => true, 'message' => 'Client uploaded successfully.']);
         } else {
             return json_encode(['status' => false, 'message' => 'No file uploaded.']);
         }

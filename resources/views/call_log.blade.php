@@ -490,7 +490,7 @@
                                 </div>`;
                     html += `<div class="timeline-content timeline-indicator">
                                 <h6 class="mb-1">${value.tag_name}</h6>
-                                <span class="text-secondary fs-7">${value.remark}</span>
+                                <span class="text-secondary fs-7">${value.remark ?? ''}</span>
                                 <br>
                                ${follow_up_details}
                             </div>`;
